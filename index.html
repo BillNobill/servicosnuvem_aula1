@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body {
+			background-repeat: no-repeat;
+			background-size: cover;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		.glass-effect {
+			background-color: rgba(255, 255, 255, 0.25);
+			backdrop-filter: blur(5px);
+			border-radius: 10px;
+			padding: 20px;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="glass-effect">
+		<h1>Bem vindo!</h1>
+		<label for="Número do CEP">Número do CEP</label>
+		<input type="text" name="numero_cep" id="numero_cep">
+		<input type="button" value="Pesquisar no endereço VIACEP" onclick="chamarServicoViaCEP()">
+	</div>
+</body>
+
+</html>
+
+<script>
+	function chamarServicoViaCEP() {
+		cep_digitado = document.getElementById("numero_cep").value;
+
+		alert("Você clicou no botão e o elemento foi invocado!");
+
+		alert("O número do CEP digitado foi: " + document.getElementById("numero_cep").value);
+
+		const urlViaCEP = "https://viacep.com.br/ws/" + cep_digitado + "/json/";
+
+		fetch(urlViaCEP).then((response) => {
+			if (response.ok) {
+				alert("Resposta OK")
+				return response.json();
+			} else (
+				alert("ERRO")
+			)
+				.then((data) => {
+					// Exibe as informações do endereço no console
+					console.log(`Informações para o CEP ${cep}: `);
+					console.log(`Logradouro: ${data.logradouro}`);
+					console.log(`Bairro: ${data.bairro}`);
+					console.log(`Cidade: ${data.localidade}`);
+					console.log(`Estado: ${data.uf}`);
+				})
+		}).catch(error => {
+			alert('Deu erro');
+			console.error("Erro ao requisitar serviço em nuvem!")
+		});
+	}
+
+</script>
